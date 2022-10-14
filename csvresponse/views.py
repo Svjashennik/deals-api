@@ -36,6 +36,6 @@ class TopCustomerAPIView(APIView):
         topcustomer = deals.values('customer').annotate(name=F('customer'),spent_money=Sum('total')).order_by('-spent_money')[:5]
         topnames = topcustomer.values('name')
         for top in topnames:
-            top['customer_gems'] = models.Deal.objects.filter(customer=top['name']).values('item').distinct() 
+            top['customer_gems'] = models.Deal.get_customer_gems(top['name'])
         serializer = serializers.TopCustomerSerializer(topcustomer.values('spent_money', 'name'), context={'topnames':topnames}, many=True)
         return Response(serializer.data)

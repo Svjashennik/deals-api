@@ -17,3 +17,7 @@ class Deal(models.Model):
             return Deal.objects.latest('created_at').index
         except Deal.DoesNotExist:
             return 1
+            
+    @staticmethod    
+    def get_customer_gems(customer):
+        return models.Deal.objects.filter(customer=customer).values('item').distinct() 

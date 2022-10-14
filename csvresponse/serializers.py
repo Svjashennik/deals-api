@@ -30,7 +30,7 @@ class TopCustomerSerializer(serializers.Serializer):
     gems = serializers.SerializerMethodField('get_gems')
 
     def get_gems(self, obj):
-        customer_gems = models.Deal.objects.filter(customer=obj['name']).values('item').distinct()
+        customer_gems = models.Deal.get_customer_gems(obj['name'])
         gems = set()
         for cust in self.context['topnames']:
             if cust['name']==obj['name']:
