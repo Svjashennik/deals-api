@@ -20,4 +20,4 @@ class Deal(models.Model):
             
     @staticmethod    
     def get_customer_gems(customer):
-        return models.Deal.objects.filter(customer=customer).values('item').distinct() 
+        return Deal.objects.filter(customer=customer).values('item').distinct() 
