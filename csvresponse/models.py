@@ -1,6 +1,7 @@
 from uuid import uuid4
 from django.db import models
 
+
 class Deal(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4)
     customer = models.TextField()
@@ -17,7 +18,7 @@ class Deal(models.Model):
             return Deal.objects.latest('created_at').index
         except Deal.DoesNotExist:
             return 1
-            
-    @staticmethod    
+
+    @staticmethod
     def get_customer_gems(customer):
-        return Deal.objects.filter(customer=customer).values('item').distinct() 
+        return Deal.objects.filter(customer=customer).values('item').distinct()

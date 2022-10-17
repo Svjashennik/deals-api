@@ -56,8 +56,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'deals.wsgi.application'
 
 
-
-
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
