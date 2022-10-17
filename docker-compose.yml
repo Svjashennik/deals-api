@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  web:
+    image: svjashennik/deals
+    command:  gunicorn deals.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/deals-api/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  db:
+    image: postgres
+    restart: on-failure
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=postgres
