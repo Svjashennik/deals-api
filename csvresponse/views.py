@@ -1,11 +1,12 @@
-from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from . import models, serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework import status
-from django.db.models import Sum, Max
+from django.db.models import Sum
 from django.db.models import F
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import condition
+from django.views.decorators.cache import cache_control
 
 class CsvResponseAPIView(APIView):
 
@@ -30,7 +31,11 @@ class CsvResponseAPIView(APIView):
 
 
 class TopCustomerAPIView(APIView):
+
+    def last_index_check(request):
+        return models.Deal.get_last_index()
     
+    @condition(etag_func=last_index_check)
     def get(self, request):
         deals = models.Deal.objects.filter(index=models.Deal.get_last_index())
         topcustomer = deals.values('customer').annotate(name=F('customer'),spent_money=Sum('total')).order_by('-spent_money')[:5]
