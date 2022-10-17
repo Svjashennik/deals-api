@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   web:
-    image: svjashennik/deals
+    build: .
     command:  gunicorn deals.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/usr/src/deals-api/
