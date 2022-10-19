@@ -24,7 +24,6 @@ class CsvResponseAPIView(APIView):
             serializer = serializers.DealsSerializer(data=deal)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-        print(deal)
         return Response({'status': 'success'}, status.HTTP_201_CREATED)
 
 
